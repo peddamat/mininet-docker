@@ -14,14 +14,11 @@ RUN service openvswitch-switch start
 USER mininet
 WORKDIR /home/mininet
 
+COPY --chown=mininet:mininet files/init.sh init.sh
+RUN chmod +x ~/init.sh
+
 COPY --chown=mininet:mininet files/tmux.conf .tmux.conf
 COPY --chown=mininet:mininet files/start-tmux.sh start-tmux.sh
 RUN chmod +x ~/start-tmux.sh
-
-RUN echo '#!/bin/bash' > ~/init.sh
-RUN echo 'sudo service openvswitch-switch start > /dev/null 2>&1' >> ~/init.sh
-#RUN echo '~/start-tmux.sh' >> ~/init.sh
-RUN echo '/bin/bash' >> ~/init.sh
-RUN chmod +x ~/init.sh
 
 CMD ~/init.sh
