@@ -1,16 +1,26 @@
 FROM ubuntu:18.04
 
-RUN apt update
-RUN apt install -y mininet openvswitch-testcontroller net-tools iproute2 iputils-ping xterm wireshark
-#RUN apt install -y mininet iproute2 iputils-ping xterm wireshark
-RUN apt install -y sudo vim git tmux
-RUN apt install -y tcpdump iputils-arping iputils-tracepath
-RUN apt install -y git
+RUN apt update && apt install -y \
+    mininet \
+    openvswitch-testcontroller \
+    net-tools \
+    iproute2 \
+    iputils-ping \
+    vlan \
+    xterm \
+    wireshark
+    tcpdump \
+    iputils-arping \
+    iputils-tracepath \
+    sudo \
+    vim \
+    git \
+    tmux \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN adduser --disabled-password --gecos '' mininet
 RUN adduser mininet sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers 
-#RUN service openvswitch-switch start
 
 USER mininet
 WORKDIR /home/mininet
@@ -28,5 +38,4 @@ RUN echo 'alias python=python2' >> ~/.bashrc
 
 EXPOSE 6633 6653 6640
 
-#CMD ~/init.sh
 ENTRYPOINT ["/home/mininet/ENTRYPOINT.sh"]
