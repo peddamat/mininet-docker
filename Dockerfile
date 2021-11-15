@@ -1,6 +1,9 @@
 FROM ubuntu:18.04
 
-RUN apt update && apt install -y \
+RUN echo "wireshark-common wireshark-common/install-setuid boolean true" | debconf-set-selections
+
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt update && apt install -y \
     mininet \
     openvswitch-testcontroller \
     net-tools \
@@ -8,7 +11,7 @@ RUN apt update && apt install -y \
     iputils-ping \
     vlan \
     xterm \
-    wireshark
+    wireshark \
     tcpdump \
     iputils-arping \
     iputils-tracepath \
